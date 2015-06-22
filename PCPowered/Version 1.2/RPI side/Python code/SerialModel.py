@@ -16,12 +16,7 @@ class serialModel():
         self.data = [0.0,0.0,0.0,0.0,0.0,0.0]
         self.dict = dictionary
         self.start = time.time()
-        self.alt = [None]*100000
-        self.posx = [None]*100000
-        self.corx = [None]*100000
-        self.posy = [None]*100000
-        self.cory = [None]*100000
-        self.timestamp = [None]*100000
+        self.SLAM = ""
         self.dataNumber = 0
         self.dict['serialModelClosed'] = False
         self.dict['serialModelRunning'] = True
@@ -34,11 +29,13 @@ class serialModel():
         self._quit()
 
     def run(self):
-        self._initSocket()
+        self._initRecvSocket()
+        self._initSendSocket()
         self._initSerial()
         while not self.dict['serialModelClosed']:
             self._readSerialData()
-            self._readSocket()
+            self._readSocket() #receive optical flow from PC
+            self._sendSocket() #send odometry to SLAM
             self._sendSerialData()
         print "out loop"
         self.dict['serialModelRunning'] = False
@@ -47,21 +44,27 @@ class serialModel():
     ######################################################
     # To store dataset on flash memory                   #
     ######################################################
-        output = open('data.pkl','wb')
-        data = [self.timestamp[0:self.dataNumber],self.posx[0:self.dataNumber],self.posy[0:self.dataNumber],self.corx[0:self.dataNumber],self.cory[0:self.dataNumber],self.alt[0:self.dataNumber]]
-        #data = [self.timestamp[0:self.dataNumber],self.alt[0:self.dataNumber],self.dalt[0:self.dataNumber]]
-        pickle.dump(data,output)
-        output.close()
+        #output = open('data.pkl','wb')
+        #data = [self.timestamp[0:self.dataNumber],self.opticalX[0:self.dataNumber],self.opticalY[0:self.dataNumber]]
+        #pickle.dump(data,output)
+        #output.close()
 
-        print data
+        #print data
 
         self._quit()
 
-    def _initSocket(self):
-        self.context = zmq.Context() # Set up client
+    def _initRecvSocket(self):
+        self.OFcontext = zmq.Context() # Set up client
         print "Connecting to OpticalFlow"
-        self.socket = self.context.socket(zmq.PAIR)
-        self.socket.bind("tcp://*:9002")
+        self.OFsocket = self.OFcontext.socket(zmq.PAIR)
+        self.OFsocket.bind("tcp://*:9002")
+        print "Connected"
+
+    def _initSendSocket(self):
+        self.SLAMcontext = zmq.Context() # Set up client
+        print "Connecting to SLAM"
+        self.SLAMsocket = self.SLAMcontext.socket(zmq.PAIR)
+        self.SLAMsocket.connect("tcp://localhost:8002") #RPI listens to data for SLAM
         print "Connected"
 
     def _initSerial(self):
@@ -69,48 +72,20 @@ class serialModel():
         self.ser.flushInput()
         print "Serial initialized"
         
-        ######################################################
+    ######################################################
     # Read incoming data from arduino                    #
     ######################################################
     def _readSerialData(self):
         if self.ser.inWaiting():
             self.inline = self.ser.readline().strip()
 
-            if self.inline[:3] != "alt" and self.inline[:3] != "opt":
-                print self.inline
-
-            if self.inline[:3] == "opt":
-                self.data = self.inline.split('|')
+            if self.inline[:4] == "SLAM":
+                #self.data = self.inline.split('|')
                 #print self.data
                 try:
-                    self.posx[self.dataNumber] = self.data[1]
-                    self.posy[self.dataNumber] = self.data[2]
-                    self.corx[self.dataNumber] = self.data[3]
-                    self.cory[self.dataNumber] = self.data[4]
-                    self.alt[self.dataNumber] = self.data[5]
-                    self.timestamp[self.dataNumber] = time.time()
-                    self.dataNumber += 1
-                    if self.dataNumber == 100000:
-                        self.dataNumber = 0;
+                    self.SLAM = self.inline
 
                 except IndexError:
-                    print self.dataNumber
-                    print self.data
-                    raise
-
-            if self.inline[:3] == "alt":
-                self.data = self.inline.split('|')
-                #print self.data
-                try:
-                    self.alt[self.dataNumber] = self.data[1]
-                    self.dalt[self.dataNumber] = self.data[2]
-                    self.timestamp[self.dataNumber] = time.time()
-                    self.dataNumber += 1
-                    if self.dataNumber == 100000:
-                        self.dataNumber = 0;
-
-                except IndexError:
-                    print self.dataNumber
                     print self.data
                     raise
 
@@ -118,9 +93,9 @@ class serialModel():
     # Read incoming data from opical flow                #
     ######################################################
     def _readSocket(self):
-        self.xmov = self.socket.recv()
-        self.ymov = self.socket.recv()
-        self.timediff = self.socket.recv()
+        self.xmov = self.OFsocket.recv()
+        self.ymov = self.OFsocket.recv()
+        self.timediff = self.OFsocket.recv()
 
         while self.xmov.endswith('\x00'):
             self.xmov = self.xmov[:-1]
@@ -129,9 +104,16 @@ class serialModel():
         while self.timediff.endswith('\x00'):
             self.timediff = self.timediff[:-1]
 
-        self.pred = '%.2f|%.2f|%d|m' %(float(self.xmov),float(self.ymov),int(self.timediff))
+        self.pred = '%.1f|%.1f|%d|m' %(float(self.xmov),float(self.ymov),int(self.timediff))
         #print self.pred
         self.ser.write(self.pred + "\n")
+
+    ######################################################
+    # Sending data to SLAM                               #
+    ######################################################
+    def _sendSocket(self):
+        if(self.SLAM == ""):
+            self.SLAMsocket.send(self.SLAM)
 
     ######################################################
     # Send predicted velocity over UART                  #

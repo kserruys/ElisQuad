@@ -17,10 +17,9 @@ class serialModel():
         self.dict = dictionary
         self.start = time.time()
         self.alt = [None]*100000
-        self.posx = [None]*100000
-        self.corx = [None]*100000
-        self.posy = [None]*100000
-        self.cory = [None]*100000
+        self.dalt = [None]*100000
+        self.radio3 = [None]*100000
+        self.calt = [None]*100000
         self.timestamp = [None]*100000
         self.dataNumber = 0
         self.dict['serialModelClosed'] = False
@@ -48,8 +47,7 @@ class serialModel():
     # To store dataset on flash memory                   #
     ######################################################
         output = open('data.pkl','wb')
-        data = [self.timestamp[0:self.dataNumber],self.posx[0:self.dataNumber],self.posy[0:self.dataNumber],self.corx[0:self.dataNumber],self.cory[0:self.dataNumber],self.alt[0:self.dataNumber]]
-        #data = [self.timestamp[0:self.dataNumber],self.alt[0:self.dataNumber],self.dalt[0:self.dataNumber]]
+        data = [self.timestamp[0:self.dataNumber],self.alt[0:self.dataNumber],self.dalt[0:self.dataNumber],self.calt[0:self.dataNumber],self.radio3[0:self.dataNumber]]
         pickle.dump(data,output)
         output.close()
 
@@ -73,37 +71,20 @@ class serialModel():
     # Read incoming data from arduino                    #
     ######################################################
     def _readSerialData(self):
-        if self.ser.inWaiting():
+        while self.ser.inWaiting():
             self.inline = self.ser.readline().strip()
 
-            if self.inline[:3] != "alt" and self.inline[:3] != "opt":
+            if self.inline[:4] != "alt:" and self.inline[:7] != "OPTPOS:":
                 print self.inline
 
-            if self.inline[:3] == "opt":
-                self.data = self.inline.split('|')
-                #print self.data
-                try:
-                    self.posx[self.dataNumber] = self.data[1]
-                    self.posy[self.dataNumber] = self.data[2]
-                    self.corx[self.dataNumber] = self.data[3]
-                    self.cory[self.dataNumber] = self.data[4]
-                    self.alt[self.dataNumber] = self.data[5]
-                    self.timestamp[self.dataNumber] = time.time()
-                    self.dataNumber += 1
-                    if self.dataNumber == 100000:
-                        self.dataNumber = 0;
-
-                except IndexError:
-                    print self.dataNumber
-                    print self.data
-                    raise
-
-            if self.inline[:3] == "alt":
+            if self.inline[:4] == "alt:":
                 self.data = self.inline.split('|')
                 #print self.data
                 try:
                     self.alt[self.dataNumber] = self.data[1]
-                    self.dalt[self.dataNumber] = self.data[2]
+                    self.dalt[self.dataNumber] = self.data[3]
+                    self.radio3[self.dataNumber] = self.data[5]
+                    self.calt[self.dataNumber] = self.data[7]
                     self.timestamp[self.dataNumber] = time.time()
                     self.dataNumber += 1
                     if self.dataNumber == 100000:

@@ -58,8 +58,7 @@ static CvPoint2D32f trajectoryCalc(vector<Point2f> pointVector1, vector<Point2f>
 		double tdx = (double)((pointVector1[i].x) - (pointVector2[i].x));
 		double tdy = (double)((pointVector1[i].y) - (pointVector2[i].y));
 
-		if(((opticalDisplacement.x-30<tdx && tdx<opticalDisplacement.x+30) && (opticalDisplacement.y-30<tdy && tdy<opticalDisplacement.y+30))
-		 || opticalDisplacement.x==0 || opticalDisplacement.y==0){
+		if((opticalDisplacement.x-30<tdx && tdx<opticalDisplacement.x+30) && (opticalDisplacement.y-30<tdy && tdy<opticalDisplacement.y+30)){
 			dx += tdx;
 			dy += tdy;
 			goodPoints++;
@@ -85,21 +84,31 @@ int main(){
 
 	list<CvPoint2D32f> opticalFlowVectors;
 
+	//set up communicator	
+	Communicator* comm = new Communicator(512, "10.42.0.13", 9002, "*", 9000);
+
+	//receive size of one image
+	char frameWidthBuf[3];
+	char frameHeightBuf[3];
+	comm->recv(frameWidthBuf, 3, 0);
+	comm->recv(frameHeightBuf, 3, 0);
+	//extract data
+	int frameWidth = atoi(frameWidthBuf);
+	int frameHeight = atoi(frameHeightBuf);
+	int frameSize = frameWidth*frameHeight;
+
+	cout << frameSize << endl;
+
 	//declare frames
-	Mat frame1;
-	Mat frame2;
+	Mat frame1(frameWidth,frameHeight,CV_8UC1);
+	Mat frame2(frameWidth,frameHeight,CV_8UC1);
 	//time between frames is needed to get velocity
 	high_resolution_clock::time_point firstFrame;
 	high_resolution_clock::time_point secondFrame;
 	duration<double> timeDiff;
 
-	int iter = 524;
-
 	//second get the image
-	ostringstream fileName;
-	fileName << "image" << iter <<".jpg";
-	frame1 = imread(fileName.str(), CV_LOAD_IMAGE_GRAYSCALE);
-
+	comm->recv(frame1.data, frameSize, 0);
 	firstFrame = high_resolution_clock::now();
 
 	//build pyramid for frame 1
@@ -109,41 +118,38 @@ int main(){
 	//start optical flow algorithm
 	cout << "Started optical flow algorithm." << endl;
 	high_resolution_clock::time_point t1 = high_resolution_clock::now();
-
+	int iter = 0;
 
 	double arrayX[4], arrayY[4];
 
     mtx.lock();
-    while(iter<849)
+    while(loop)
     {
     	mtx.unlock();
 
     	//recv frame 2
-		ostringstream fileName3;
-		fileName3 << "image" << iter <<".jpg";
-		frame2 = imread(fileName3.str(), CV_LOAD_IMAGE_GRAYSCALE);
-
+		comm->recv(frame2.data, frameSize, 0);
 		secondFrame = high_resolution_clock::now();
 		timeDiff = duration_cast<duration<double>>(secondFrame - firstFrame);
 		
 		//detector->detect(frame1, KeyPointVector);
 		//KeyPoint::convert(KeyPointVector, pointVector1);
 
-	  	goodFeaturesToTrack(frame1, pointVector1, 200, 0.05, 1, Mat(),
-	  		3, true, 0.04);
+	  	goodFeaturesToTrack(frame1, pointVector1, 200, 0.01, 1, Mat(),
+	  		3, false, 0.04);
 
-	  	
+	  	/*
 		//save picture with features to track
-		/*Mat copy = frame1.clone();
-		for(int i = 0; i < pintVector1.size(); i++){
+		Mat copy = frame1.clone();
+		for(int i = 0; i < pointVector1.size(); i++){
 			circle(copy, pointVector1[i], 4, Scalar(rng.uniform(0,255), rng.uniform(0,255),
              rng.uniform(0,255)), -1, 8, 0 ); 
 		}
 		
 		ostringstream fileName;
 		fileName << "flightphoto/image" << iter <<".jpg";
-		imwrite(fileName.str(), frame1);*/
-		
+		imwrite(fileName.str(), frame1);
+		*/
 
 		/*
 		if(KeyPointVector.size() > 30)
@@ -166,6 +172,7 @@ int main(){
 			 0,0.0001);
 		}
 
+		/*
 		Mat frame3;
 		cvtColor(frame2, frame3, CV_GRAY2RGB);
 
@@ -190,6 +197,7 @@ int main(){
 		ostringstream fileName2;
 		fileName2 << "flightphoto/flow" << iter <<".jpg";
 		imwrite(fileName2.str(), frame3);
+		*/
 
 		//store pyramid 2 in pyramid 1
 		frame1 = frame2.clone();
@@ -207,6 +215,16 @@ int main(){
 		double avgY = arrayY[0]*0.2 + arrayY[1]*0.2 + arrayY[2]*0.2 + arrayY[3]*0.2 + opticalVelocity.y*0.2;
 		*/
 
+		//cout << opticalDisplacement.x << endl;
+
+		char xBuf[7]; char yBuf[7]; char timeBuf[7];
+		//avgX must be sent negative because the camera is reversly mounted on the quad.
+		int xBufLen = sprintf(xBuf, "%.1f",  opticalDisplacement.x);
+		int yBufLen = sprintf(yBuf, "%.1f", opticalDisplacement.y);
+		int timeBufLen = sprintf(timeBuf, "%d", (int)(timeDiff.count()*1000));
+		comm->send(xBuf,xBufLen,0);
+		comm->send(yBuf,yBufLen,0);
+		comm->send(timeBuf,timeBufLen,0);
 
 		opticalFlowVectors.push_back(opticalDisplacement);
 		iter++;

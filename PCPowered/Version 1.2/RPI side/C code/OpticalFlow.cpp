@@ -20,6 +20,9 @@ using namespace std;
 using namespace cv;
 using namespace std::chrono;
 
+int frameWidth = 320;
+int frameHeight = 240;
+
 bool loop = true;
 mutex mtx;
 
@@ -58,7 +61,8 @@ static CvPoint2D32f trajectoryCalc(vector<Point2f> pointVector1, vector<Point2f>
 		double tdx = (double)((pointVector1[i].x) - (pointVector2[i].x));
 		double tdy = (double)((pointVector1[i].y) - (pointVector2[i].y));
 
-		if((opticalDisplacement.x-30<tdx && tdx<opticalDisplacement.x+30) && (opticalDisplacement.y-30<tdy && tdy<opticalDisplacement.y+30)){
+		if(((opticalDisplacement.x-30<tdx && tdx<opticalDisplacement.x+30) && (opticalDisplacement.y-30<tdy && tdy<opticalDisplacement.y+30))
+		 || opticalDisplacement.x==0 || opticalDisplacement.y==0){
 			dx += tdx;
 			dy += tdy;
 			goodPoints++;
@@ -80,35 +84,42 @@ static CvPoint2D32f trajectoryCalc(vector<Point2f> pointVector1, vector<Point2f>
 
 
 int main(){
-	thread t(waitForKeyPress);
-
 	list<CvPoint2D32f> opticalFlowVectors;
 
 	//set up communicator	
-	Communicator* comm = new Communicator(512, "10.42.0.13", 9002, "*", 9000);
+	//Communicator* comm = new Communicator(512, "10.42.0.13", 9002, "*", 9000);
 
-	//receive size of one image
-	char frameWidthBuf[3];
-	char frameHeightBuf[3];
-	comm->recv(frameWidthBuf, 3, 0);
-	comm->recv(frameHeightBuf, 3, 0);
-	//extract data
-	int frameWidth = atoi(frameWidthBuf);
-	int frameHeight = atoi(frameHeightBuf);
-	int frameSize = frameWidth*frameHeight;
 
-	cout << frameSize << endl;
+	//initialize camera
+    VideoCapture cap(0);
+    if(!cap.isOpened()){
+        cout << "No camera found." << endl;
+        return -1;
+    }
 
-	//declare frames
-	Mat frame1(frameWidth,frameHeight,CV_8UC1);
-	Mat frame2(frameWidth,frameHeight,CV_8UC1);
+	cap.set(CV_CAP_PROP_FRAME_WIDTH,frameWidth);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT,frameHeight);
+    cap.set(CV_CAP_PROP_FPS, 30);
+
+    //initialize frames
+    Mat frame;
+	Mat frame1(frameHeight,frameWidth,CV_8UC1);
+	Mat frame2(frameHeight,frameWidth,CV_8UC1);
+
 	//time between frames is needed to get velocity
 	high_resolution_clock::time_point firstFrame;
 	high_resolution_clock::time_point secondFrame;
 	duration<double> timeDiff;
 
+	cout << "getting first image." << endl;
+
 	//second get the image
-	comm->recv(frame1.data, frameSize, 0);
+	cap >> frame;
+	cout << "got first image." << endl;
+
+	cvtColor(frame, frame1, CV_BGR2GRAY);
+	cout << "converted to gray image" << endl;
+
 	firstFrame = high_resolution_clock::now();
 
 	//build pyramid for frame 1
@@ -122,13 +133,14 @@ int main(){
 
 	double arrayX[4], arrayY[4];
 
-    mtx.lock();
-    while(loop)
+	while(1)
     {
-    	mtx.unlock();
-
     	//recv frame 2
-		comm->recv(frame2.data, frameSize, 0);
+		cap >> frame;
+		cvtColor(frame, frame2, CV_BGR2GRAY);
+		//delete frame
+		frame.release();
+
 		secondFrame = high_resolution_clock::now();
 		timeDiff = duration_cast<duration<double>>(secondFrame - firstFrame);
 		
@@ -172,7 +184,7 @@ int main(){
 			 0,0.0001);
 		}
 
-		/*
+		/* //if pics with flow vectors are wanted
 		Mat frame3;
 		cvtColor(frame2, frame3, CV_GRAY2RGB);
 
@@ -200,54 +212,41 @@ int main(){
 		*/
 
 		//store pyramid 2 in pyramid 1
+		//first delete frame1
+		frame1.release();
+		//clone frame2
 		frame1 = frame2.clone();
 		pyramid1.swap(pyramid2);
 		firstFrame = secondFrame;
+		//delete frame2
+		frame2.release();
 
 		//find the average opticalVelocity
 		opticalDisplacement = trajectoryCalc(pointVector1, pointVector2, featuresFound,
 		featuresError, pointVector1.size());
 
+		cout << "loop " << iter << endl;
+
+		//if speed is required
 		/*
 		opticalVelocity.x = opticalDisplacement.x/timeDiff.count();
 		opticalVelocity.y = opticalDisplacement.y/timeDiff.count();
-		double avgX = arrayX[0]*0.2 + arrayX[1]*0.2 + arrayX[2]*0.2 + arrayX[3]*0.2 + opticalVelocity.x*0.2;
-		double avgY = arrayY[0]*0.2 + arrayY[1]*0.2 + arrayY[2]*0.2 + arrayY[3]*0.2 + opticalVelocity.y*0.2;
 		*/
 
-		cout << timeDiff.count() << endl;
+		/*
+		double avgX = arrayX[0]*0.2 + arrayX[1]*0.2 + arrayX[2]*0.2 + arrayX[3]*0.2 + opticalVelocity.x*0.2;
+		double avgY = arrayY[0]*0.2 + arrayY[1]*0.2 + arrayY[2]*0.2 + arrayY[3]*0.2 + opticalVelocity.y*0.2;
 
-		char xBuf[7]; char yBuf[7]; char timeBuf[7];
+		char xBuf[7]; char yBuf[7];
 		//avgX must be sent negative because the camera is reversly mounted on the quad.
-		int xBufLen = sprintf(xBuf, "%.1f",  opticalDisplacement.x);
-		int yBufLen = sprintf(yBuf, "%.1f", opticalDisplacement.y);
-		int timeBufLen = sprintf(timeBuf, "%d", (int)(timeDiff.count()*1000));
-		comm->send(xBuf,xBufLen,0);
-		comm->send(yBuf,yBufLen,0);
-		comm->send(timeBuf,timeBufLen,0);
+		int xBufLen = sprintf(xBuf, "%.1f", avgX);
+		int yBufLen = sprintf(yBuf, "%.1f", avgY);
+		comm->send(xBuf,xBufLen,ZMQ_NOBLOCK);
+		comm->send(yBuf,yBufLen,ZMQ_NOBLOCK);
+		*/
 
 		opticalFlowVectors.push_back(opticalDisplacement);
 		iter++;
 		mtx.lock();
 	}
-	
-	t.join();
-
-	high_resolution_clock::time_point t2 = high_resolution_clock::now();
-	duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-	double fps = ((double)opticalFlowVectors.size())/time_span.count();
-
-	ofstream myFile;
-	myFile.open ("opticalFlow.txt");
-
-	myFile << "FPS: \t" << fps << endl;
-
-	iter=0;
-
-	for (list<CvPoint2D32f>::iterator it=opticalFlowVectors.begin(); it!=opticalFlowVectors.end(); ++it){
-		  myFile << it->x << "\t" << it->y << endl;
-	}
-
-  	myFile.close();		
-
 }

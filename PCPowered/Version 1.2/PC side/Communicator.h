@@ -103,10 +103,13 @@ int Communicator::send(void* msg, int msg_size, int mode){
 	memcpy(buf2, msg+i*buf_size, last_block_size);
 
 	s = zmq_send(send_socket, buf2, last_block_size, mode);
+
 	if(s < 0){
 		cout << "error sending message." << endl;
 		return -1;
 	}
+
+	return 0;
 }
 
 /********RECEIVING*********/
@@ -129,7 +132,9 @@ int Communicator::recv(void* msg, int msg_size, int mode){
 	// last block can have a different size
 	int last_block_size = msg_size-buf_size*i;
 	char buf2[last_block_size];
+
 	r = zmq_recv(recv_socket, buf2, last_block_size, mode);
+
 	if(r < 0){
 		cout << "error receiving message." << endl;
 		return -1;
