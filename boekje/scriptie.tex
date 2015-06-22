@@ -1,0 +1,158 @@
+% !TeX spellcheck = nl_NL
+
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage{a4wide}
+%\usepackage[top=3cm,bottom=4cm,outer=2cm,inner=3cm]{geometry}
+\usepackage[dutch,english]{babel}       % Voor nederlandstalige hyphenatie (woordsplitsing)
+\usepackage{amsmath}                    % Uitgebreide wiskundige mogelijkheden
+\usepackage[binary-units=true]{siunitx} % si units
+\usepackage{amssymb}                    % Voor speciale symbolen zoals de verzameling Z, R...
+\usepackage{url}                        % Om url's te verwerken
+\usepackage{graphicx}                   % Om figuren te kunnen verwerken
+\usepackage[small,bf,hang]{caption2}    % Om de captions wat te verbeteren
+\usepackage{xspace}                     % Magische spaties na een commando
+\usepackage[latin1]{inputenc}           % Om niet ascii karakters rechtstreeks te kunnen typen
+\usepackage{float}                      % Om nieuwe float environments aan te maken. Ook optie H!
+\usepackage{flafter}                    % Opdat floats niet zouden voorsteken
+\usepackage{listings}                   % Voor het weergeven van letterlijke text en codelistings
+\usepackage{marvosym}                   % Om het euro symbool te krijgen
+\usepackage{textcomp}                   % Voor onder andere graden celsius
+\usepackage{fancyhdr}                   % Voor fancy headers en footers.
+\usepackage{graphics}					% Om figuren te verwerken.
+\usepackage[nottoc]{tocbibind} 			% Bibliografie in ToC; zie tocbibind.dvi
+%\usepackage{pstricks}
+\usepackage{longtable}
+\usepackage{pdfpages}  					% pdf pagina's importeren
+\usepackage{url} 						% allows urls in bibtex?
+\usepackage{subfigure}					% gebruikt subfigure package
+\usepackage{mathtools}					% package voor matrix alignment
+\usepackage{tabularx}					% package voor tabelsize
+
+\newcommand{\npar}{\par \vspace{2.3ex plus 0.3ex minus 0.3ex} \noindent}	% Om witruimte te krijgen tussen paragrafen
+\graphicspath{{./Figuren/}}               % De plaats waar latex zijn figuren gaat halen.
+\usepackage[bf]{caption2}	% Mooiere captions
+\usepackage[a4paper,plainpages=false]{hyperref}    % Om hyperlinks te hebben in het pdfdocument.
+\newcommand{\command}[1]{\lstinline[basicstyle=\tt]{#1}\xspace} %Voor commando's
+\hyphenation{om-ge-vings-map-pin-met-een-au-to-no-me-quad-cop-ter}
+
+
+\renewcommand{\chaptermark}[1]{\markright{\MakeUppercase{#1}}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection~#1}}
+
+\newcommand{\headerfmt}[1]{\textsl{\textsf{#1}}}
+\newcommand{\headerfmtpage}[1]{\textsf{#1}}
+
+\fancyhf{}
+\fancyhead[LE,RO]{\headerfmtpage{\thepage}}
+\fancyhead[LO]{\headerfmt{\rightmark}}
+\fancyhead[RE]{\headerfmt{\leftmark}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{ % eerste bladzijde van een hoofdstuk
+  \fancyhf{}
+  \fancyhead[LE,RO]{\headerfmtpage{\thepage}}
+  \fancyhead[LO]{\headerfmt{\rightmark}}
+  \fancyhead[RE]{\headerfmt{\leftmark}}
+  \renewcommand{\headrulewidth}{0.5pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\renewcommand{\lstlistoflistings}{\begingroup
+   \tocfile{\lstlistlistingname}{lol}
+\endgroup}
+
+
+\hypersetup{
+    pdfauthor = {Karel Serruys},
+    pdftitle = {Omgevingsmapping met autonome quadcopter},
+    pdfsubject = {Masterproef ingediend tot het behalen van de academische graad van Master of Science in de ingenieurswetenschappen: elektrotechniek}
+}
+
+\begin{document}
+\nocite{*}
+\selectlanguage{dutch}
+
+\frontmatter
+
+% geen paginanummering tot we aan de inhoudsopgave komen
+\pagestyle{empty}
+
+%kaft titel pagina
+\includepdf[pages={1}]{titel.pdf}
+
+% lege pagina (!!)
+\newpage
+\vfil\null
+\newpage
+
+
+% titelblad (!!)
+\includepdf[pages={1}]{titel.pdf}
+
+
+% voorwoord met dankwoord en toelating tot bruikleen (ondertekend)
+\pagestyle{empty}
+\renewcommand{\baselinestretch}{1.3}
+\include{s-vooraf}
+\clearpage
+
+
+% extended abstract
+\includepdf[pages={1}]{abstract.pdf}
+\includepdf[pages={2}]{abstract.pdf}
+\includepdf[pages={3}]{abstract.pdf}
+
+
+%inhoudsopgave
+\pagestyle{fancy}
+\renewcommand{\baselinestretch}{1.08} 	% De interlinie afstand wat verkleinen.
+\small\normalsize                       % Nodig om de baselinestretch goed te krijgen.
+\setcounter{page}{1}
+\addcontentsline{tot}{chapter}{Inhoudsopgave}
+\tableofcontents
+\renewcommand{\baselinestretch}{1.2} 	% De interlinie afstand wat vergroten.
+\small\normalsize                       % Nodig om de baselinestretch goed te krijgen.
+
+
+%lijst van figuren/tabellen
+\listoffigures
+\listoftables
+\cleardoublepage
+
+%afkortingen en acroniemen
+\input{s-afkortingen}
+
+\mainmatter
+\input{s-inleiding}
+\input{s-platform}
+\input{s-OptimalisatieSturing}
+\input{s-SLAM}
+\input{s-integratie}
+\input{s-conclusie}
+
+% De bibliografie
+% Het bibliografisch opmaak bestand.
+\bibliographystyle{IEEEtran}
+%\bibpunct{[}{]}{,}{n}{,}{,}
+\bibliography{bibliodatabase}
+
+
+\backmatter
+
+
+\appendix
+% lege pagina (!!)
+\pagestyle{empty}
+\newpage
+\vfil\null
+\newpage
+
+%kaft
+\newpage
+\vfil\null
+\newpage
+
+\end{document}
+
+

@@ -1,0 +1,13 @@
+\select@language {english}
+\select@language {dutch}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Vergelijking tussen aanvankelijk gebruikte RPi en het nieuwste model op de markt.}}{12}{table.2.1}
+\contentsline {table}{\numberline {2.2}{\ignorespaces Nieuwe commando's om het vlieggedrag te be\"invloeden.}}{17}{table.2.2}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{Het maximaal haalbaar aantal frames per seconde gegeven de resolutie wanneer optical flow op de PC wordt berekend.}}{21}{table.3.1}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Het aantal frames per seconde gegeven de resolutie wanneer optical flow op de PC wordt berekend met Raspberry Pi 1 en Raspberry Pi 2}}{23}{table.3.2}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Nieuwe commando's om het vlieggedrag te be\"invloeden.}}{35}{table.3.3}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

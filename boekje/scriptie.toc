@@ -1,0 +1,79 @@
+\select@language {english}
+\select@language {dutch}
+\contentsline {chapter}{L"yst van figuren}{iii}{chapter*.2}
+\contentsline {chapter}{L"yst van tabellen}{vi}{chapter*.3}
+\contentsline {chapter}{Gebruikte afkortingen}{vii}{chapter*.4}
+\contentsline {chapter}{\numberline {1}Inleiding}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Situering}{1}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Situering van autonomie bij quadcopters}{2}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Omgevingsmapping}{4}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Probleemstelling}{6}{section.1.2}
+\contentsline {section}{\numberline {1.3}Aanpak}{6}{section.1.3}
+\contentsline {chapter}{\numberline {2}Quadcopter platform}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}Terminologie}{7}{section.2.1}
+\contentsline {section}{\numberline {2.2}Hardware}{8}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Quadcopterbasis}{8}{subsection.2.2.1}
+\contentsline {subsubsection}{Frame}{9}{section*.5}
+\contentsline {subsubsection}{Motoren}{9}{section*.6}
+\contentsline {subsubsection}{ESC's}{9}{section*.7}
+\contentsline {subsubsection}{Batterij}{10}{section*.8}
+\contentsline {subsection}{\numberline {2.2.2}Quadcoptersturing}{10}{subsection.2.2.2}
+\contentsline {subsubsection}{Quadcopter sturen}{10}{section*.9}
+\contentsline {subsubsection}{Ardupilot Mega en IMU schild}{11}{section*.10}
+\contentsline {subsubsection}{Raspberry Pi}{12}{section*.11}
+\contentsline {section}{\numberline {2.3}Software}{13}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Ardupilot Mega}{13}{subsection.2.3.1}
+\contentsline {subsubsection}{Ardupilot controlelus}{13}{section*.12}
+\contentsline {subsubsection}{Ardupilot gebruikerlus}{14}{section*.13}
+\contentsline {subsection}{\numberline {2.3.2}Raspberry Pi}{16}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Optical flow}{17}{subsection.2.3.3}
+\contentsline {section}{\numberline {2.4}Evaluatie van het platform}{19}{section.2.4}
+\contentsline {chapter}{\numberline {3}Optimalisatie sturing}{20}{chapter.3}
+\contentsline {section}{\numberline {3.1}Beperkte rekenkracht van Raspberry Pi omzeilen}{20}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Optical flow op PC}{21}{subsection.3.1.1}
+\contentsline {subsubsection}{CameraStream.cpp}{21}{section*.14}
+\contentsline {subsubsection}{OpticalFlow.cpp}{22}{section*.15}
+\contentsline {subsubsection}{ZeroMQ}{22}{section*.16}
+\contentsline {subsection}{\numberline {3.1.2}Compressie}{23}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Resultaat}{23}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}Optical Flow}{24}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}FAST detector}{24}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}GFTT detector}{25}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Resultaat}{25}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Hoogte regeling}{28}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Auto-takeoff}{28}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Auto-land}{29}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Functiegenerator}{29}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.4}Optimalisatie PID parameters}{30}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.5}Resultaat}{30}{subsection.3.3.5}
+\contentsline {section}{\numberline {3.4}Driftcompensatie}{31}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Drift detecteren}{31}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Drift compenseren}{34}{subsection.3.4.2}
+\contentsline {subsection}{\numberline {3.4.3}Resultaten}{34}{subsection.3.4.3}
+\contentsline {section}{\numberline {3.5}APM logica}{34}{section.3.5}
+\contentsline {section}{\numberline {3.6}Besluit}{35}{section.3.6}
+\contentsline {chapter}{\numberline {4}SLAM}{37}{chapter.4}
+\contentsline {section}{\numberline {4.1}Laserscanner}{37}{section.4.1}
+\contentsline {section}{\numberline {4.2}Twee paradigmas}{37}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Extended Kalman Filters}{39}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Particle Filters}{39}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Besluit}{40}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}BreezySLAM}{40}{section.4.3}
+\contentsline {chapter}{\numberline {5}Integratie SLAM in het platform}{42}{chapter.5}
+\contentsline {section}{\numberline {5.1}Aanpassingen architectuur}{42}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Aanpassingen hardware}{42}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Aanpassingen software}{43}{subsection.5.1.2}
+\contentsline {subsubsection}{LaserStream.cpp}{43}{section*.17}
+\contentsline {subsubsection}{SLAM.cpp}{44}{section*.18}
+\contentsline {section}{\numberline {5.2}SLAM zonder odometrie}{44}{section.5.2}
+\contentsline {section}{\numberline {5.3}SLAM met odometrie}{45}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Aanpassingen softwarearchitectuur}{45}{subsection.5.3.1}
+\contentsline {subsubsection}{SerialModel.py}{46}{section*.19}
+\contentsline {subsubsection}{LaserStream.cpp}{46}{section*.20}
+\contentsline {subsection}{\numberline {5.3.2}Resultaat}{46}{subsection.5.3.2}
+\contentsline {section}{\numberline {5.4}Besluit}{47}{section.5.4}
+\contentsline {chapter}{\numberline {6}Conclusie}{50}{chapter.6}
+\contentsline {section}{\numberline {6.1}Optimalisatie}{50}{section.6.1}
+\contentsline {section}{\numberline {6.2}Omgevingsmapping}{52}{section.6.2}
+\contentsline {section}{\numberline {6.3}Toekomstig werk}{53}{section.6.3}
+\contentsline {chapter}{Bibliografie}{54}{chapter*.21}

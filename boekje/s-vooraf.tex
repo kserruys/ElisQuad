@@ -1,0 +1,57 @@
+% !TeX spellcheck = nl_NL
+\newpage
+\thispagestyle{empty}
+\npar {\Huge \textbf{Voorwoord}}\\
+\\
+\\
+\textit{Ik heb deze thesis geschreven tot het behalen van het diploma burgerlijk ingenieur in de elektrotechniek. Bij het schrijven van dit werk ben ik veel problemen tegengekomen, het ging vaak moeilijk. Maar hoe moeilijker het probleem was, hoe meer voldoening ik eruit haalde eens het opgelost was. Uiteraard stond ik er niet alleen voor. Ik wil graag de mensen bedanken die mij geholpen hebben om deze thesis tot een goed einde te brengen.\\
+\\	
+Eerst en vooral wil ik mijn begeleider ir. Jonas Degrave bedanken, aan wie ik altijd advies kon vragen. Graag wil ik ook mijn promotoren prof. dr. ir. Joni Dambre en dr. ir. {Francis} {wyffels} bedanken om mij de kans te geven een thesis te doen over robotica in Reservoir Lab.\\
+\\
+Ik wil graag ook mijn vrienden bedanken. Om te beginnen bedank ik mijn medestudenten Joachim Ally, Pieter Heemeryck en Tom Thevelein van ons eigen opgerichte `Team Elektro'. Samen hebben we vijf jaar lang onze kennis gedeeld en elkaar door iedere examenperiode heen geholpen. Ook wil ik Mathieu Verfaillie en Gillis Sanctobin bedanken voor de ontspannende momenten tussen het schrijven door.\\
+\\
+Ten slotte wil ik nog mijn familie bedanken. Eerst en vooral ben ik mijn ouders Wim en Lut en mijn zussen Lise en Nele heel dankbaar omdat ze mij altijd geholpen hebben waar mogelijk en ze mij altijd zijn blijven aanmoedigen. Om af te sluiten wil ik nog met heel mijn hart mijn vriendin Stefanie Ghettem bedanken omdat ik ook altijd bij haar terecht kon.}\\
+\\
+\begin{flushright}
+	Karel Serruys\\
+	Gent, juni 2015
+\end{flushright}
+
+\newpage
+\thispagestyle{empty}
+\npar {\Huge \textbf{Toelatig tot bruikleen}}\\
+\\
+\\
+De auteur geeft de toelating deze masterproef voor consultatie beschikbaar te stellen en delen van de masterproef te kopi\"eren voor persoonlijk gebruik.
+
+\npar Elk ander gebruik valt onder de bepalingen van het auteursrecht, in het bijzonder met betrekking tot de verplichting de bron uitdrukkelijk te vermelden bij het aanhalen van resultaten uit deze masterproef.\\
+\\
+\begin{flushright}
+Karel Serruys\\
+Gent, juni 2015
+\end{flushright}
+
+\newpage
+\thispagestyle{empty}
+\npar {\Huge \textbf{Omgevingsmapping met autonome\\ quadcopter}}\\
+\\
+\\
+\textbf{Karel Serruys}\\
+\\
+Promotoren: prof. dr. ir. Joni Dambre, dr. ir. Francis wyffels\\
+Begeleiders: ir. Jonas Degrave, dr. ir. Francis wyffels\\
+\\
+Masterproef ingediend tot het behalen van de academische graad van Master of Science in de ingenieurswetenschappen: elektrotechniek\\
+\\
+Academiejaar 2014-2015\\
+Faculteit Ingenieurswetenschappen en Architectuur\\
+Voorzitter: prof. dr. ir. Rik Van de Walle\\
+Vakgroep Elektronica en Informatiesystemen\\
+\\
+\\
+{\Large \textbf{Samenvatting}}\\
+\\
+Dit werkt beschouwt een low-cost quadcopter. Het uiteindelijke doel is dit platform in staat stellen om een onbekende omgeving autonoom in kaart te brengen. De lage kost van het platform impliceert dat goedkope componenten gebruikt moeten worden. De gebruikte sensoren zijn onderhevig zijn aan ruis, de rekenkracht van de aanwezige hardware is beperkt. Dit levert dan ook de grootste uitdaging bij het verwezenlijken van autonoom gedrag en het maken van nauwkeurige omgevingsmappen.
+\npar Het realiseren van autonoom gedrag wordt stap voor stap behandeld. Om de drift van het platform te compenseren wordt beroep gedaan op optical flow. Dit eist echter vrij veel rekenkracht. De beperkte rekenkracht van het platform wordt omzeild door de berekeningen extern uit te voeren. De precisie van die berekeningen kan om die reden ook opgevoerd worden. Vervolgens worden zowel hoogteregelaar als positieregelaar geoptimaliseerd. Uiteindelijk wordt een platform bekomen dat stabiel vlieggedrag garandeert.
+\npar Voor het maken van omgevingsmappen wordt gebruik gemaakt van \textit{Simultaneous Localization and Mapping} (SLAM). Eerst wordt een gepast algoritme gezocht en gevonden: {BreezySLAM}. Eens ge\"implementeerd kan een omgevingsmap gegeneerd worden. De resultaten zijn niet heel nauwkeurig, maar er is wel aangetoond dat het platform geschikt is om aan omgevingsmapping te doen.
+\npar \textbf{Kernwoorden:} autonome quadcopter, indoor, optical flow, SLAM

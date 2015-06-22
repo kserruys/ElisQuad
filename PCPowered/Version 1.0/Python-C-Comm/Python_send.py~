@@ -1,0 +1,12 @@
+import zmq
+import random
+import sys
+import time
+
+
+context = zmq.Context()
+socket = context.socket(zmq.PAIR)
+socket.connect("tcp://192.168.2.1:9000")
+
+msg = socket.send("Hello World")
+print msg

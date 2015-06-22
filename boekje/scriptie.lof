@@ -1,0 +1,68 @@
+\select@language {english}
+\select@language {dutch}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces AR.Parrot quadcopter drone die met een smartphone bestuurd kan worden.}}{1}{figure.1.1}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces De quadcopters van Andrea et al. in actie.}}{3}{figure.1.2}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Twee quadcopters die elkaar een ge\"inverteerde pendulum doorgeven.}}}{3}{figure.1.2}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Een quadcopter die een touw weeft rond twee andere touwen}}}{3}{figure.1.2}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Omgevingsmappen gegenereerd door grondrobots met behulp van een 3D laserscanner(a) en met behulp van een RGB-D camera(b).}}{4}{figure.1.3}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Een map gegenereerd met een SLAM algoritme dat een laserscanner gebruikt.}}}{4}{figure.1.3}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Een map gegenereerd met een SLAM algoritme dat een RGB-D camera gebruikt.}}}{4}{figure.1.3}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Omgevingsmappen gegenereerd door quadcopters met behulp van een camera(a) en met behulp van een laserscanner en een RGB-D camera (b).}}{5}{figure.1.4}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Een map gegenereerd met de PTAM implementatie van J. Nyman. Het PTAM algoritme maakt gebruik van een camera.}}}{5}{figure.1.4}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Een map gegenereerd met het SLAM algoritme geschreven door S. Shen et al. dat gebruik maakt van een RGB-D camera en een laserscanner}}}{5}{figure.1.4}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Schematische voorstelling van een quadcopter waarop het gebruikte assenstelsel en roll, pitch en yaw zijn aangeduid.}}{7}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces De hardware van het platform, schematisch voorgesteld.}}{8}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Overzicht van de quadcopterbasis.}}{9}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Om een quadcopter vooruit te laten vliegen, moet de throttle van de achterste motor opgedreven worden (links). Om een quadcopter te laten roteren om de z-as moet de throttle van de rotoren in wijzerzin verschillen van die in tegenwijzerzin (rechts).}}{11}{figure.2.4}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces De Ardupilot Mega(links) en het Inertial Measurements Unit schild(rechts) met hun belangrijkste componenten aangeduid op de figuur.}}{12}{figure.2.5}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Architectuur van de Ardupilot Mega.}}{13}{figure.2.6}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Bij het omzetten van optical flow data naar een effectieve snelheid moet rekening gehouden worden met roll en pitch(a) en met de hoogte(b) van het platform.}}{15}{figure.2.7}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Invloed van roll en pitch op optical flow snelheid.}}}{15}{figure.2.7}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Invloed van hoogte op optical flow snelheid.}}}{15}{figure.2.7}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Architectuur van de Raspberry Pi.}}{16}{figure.2.8}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Het optical flow algoritme wordt in deze figuur grafisch voorgesteld.}}{18}{figure.2.9}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Schematische voorstelling van de nieuwe architectuur van het platform.}}{22}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Flow vectoren voor optical flow in combinatie met FAST en GFTT voor scherpe beelden. Bij scherpe beelden vindt de GFTT detector(d) meer features dan de FAST detector(c). De features gevonden door beide detectors zijn van goeie kwaliteit.}}{26}{figure.3.2}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Frame 1}}}{26}{figure.3.2}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Frame 2}}}{26}{figure.3.2}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {FAST}}}{26}{figure.3.2}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {GFTT}}}{26}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Flow vectoren voor optical flow in combinatie met FAST en GFTT voor wazige beelden. De GFTT detector(d) vindt duidelijk veel meer features dan de FAST detector(c) wanneer het beeld wazig wordt. Bovendien zijn de features die de FAST detector vindt niet allemaal van goeie kwaliteit, terwijl dit wel het geval is bij de GFTT detector.}}{27}{figure.3.3}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Frame 1}}}{27}{figure.3.3}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Frame 2}}}{27}{figure.3.3}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {FAST}}}{27}{figure.3.3}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {GFTT}}}{27}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Gewenst hoogte-, snelheids- en versnellingsprofiel}}{29}{figure.3.4}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Hoogte}}}{29}{figure.3.4}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Snelheid}}}{29}{figure.3.4}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Versnelling}}}{29}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces De invloed op het opstijggedrag van de quadcopter bij een te lage lift-off drempelwaarde in (a) en bij een goede lift-off drempelwaard in (b). Wanneer de drempelwaarde te laag gekozen is, duurt het een heel eind vooraleer de integrerende term van de PID-regelaar de vaste fout op $Thr_0$ heeft opgevangen.}}{32}{figure.3.5}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Lage lift-off drempelwaarde}}}{32}{figure.3.5}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Goede lift-off drempelwaarde}}}{32}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Vergelijking tussen het vlieggedrag zonder en met functiegenerator. Wanneer de functiegenerator wordt aangezet, volgt de hoogte mooi de gewenste hoogte en is er minder overshoot dan wanneer de functiegenerator afligt.}}{33}{figure.3.6}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Zonder functiegenerator}}}{33}{figure.3.6}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Met functiegenerator}}}{33}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Logica op de APM. De statussen worden afgebeeld in de rechthoeken. De condities voor een transitie worden afgebeeld naast de pijlen.}}{36}{figure.3.7}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Grafische voorstelling van het basisalgoritme voor SLAM.}}{38}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Het assenstelsel op de figuur geeft de houding van een quadcopter weer. Er wordt ge\"illustreerd waarom de gemeten afstanden niet volledig kloppen wanneer het platform kantelt in een bepaalde richting.}}{41}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces 2D map gegenereerd met TinySLAM.}}{41}{figure.4.3}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Het platform wordt in deze figuur weergegeven. De laserscanner is gemonteerd bovenaan de het frame.}}{43}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Nieuwe softwarearchitectuur van het platform.}}{44}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Het loop-closing probleem: de invloed van eenzelfde plaats twee keer bezoeken. BreezySLAM herkent de plaatsen niet wanneer deze de tweede keer worden bezocht. Hierdoor wordt een nieuwe map getekend bovenop de map die er reeds getekend was.}}{45}{figure.5.3}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Map gegenereerd na \'e\'en rondje in een kamer.}}}{45}{figure.5.3}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Map gegenereerd na twee rondjes in een kamer.}}}{45}{figure.5.3}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces De aangepaste architectuur, die SLAM voorziet van odometrie.}}{46}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Vergelijking tussen de prestatie van BreezySLAM met en zonder odometrie. Om deze mappen te genereren werd het meermaals bezoeken van eenzelfde plaats vermeden. De prestatie van BreezySLAM met en zonder odometrie is ongeveer dezelfde wanneer een kleine ruimte gemapt wordt. Als drie aaneensluitende ruimtes gemapt moeten worden roteren ze wat ten opzichte van elkaar wanneer geen odometrie wordt gebruikt. Als wel odometrie wordt gebruikt, liggen de kamers correcter ten opzichte van elkaar.}}{48}{figure.5.5}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Map van 1 kamer, gegenereerd zonder odometrie}}}{48}{figure.5.5}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Map van 1 kamer, gegenereerd met odometrie}}}{48}{figure.5.5}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Map van 3 kamers, gegenereerd zonder odometrie}}}{48}{figure.5.5}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Map van 3 kamers, gegenereerd met odometrie}}}{48}{figure.5.5}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Loop-closing vergeleken voor BreezySLAM zonder(a) en met(b) odometrie. Het meermaals bezoeken van eenzelfde plaats blijft een probleem, ook wanneer odometrie gebruikt wordt.}}{49}{figure.5.6}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Loop-closing zonder odometrie}}}{49}{figure.5.6}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Loop-closing met odometrie}}}{49}{figure.5.6}
+\addvspace {10\p@ }
